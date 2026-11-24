@@ -71,3 +71,8 @@ flowchart LR
 Notebook fixes are a separate commit: discriminator width now honors `ndf`, sampling no longer updates generator BatchNorm statistics, automatic installs/credentials/downloads are disabled, outputs cleared, and the flat-folder/ImageFolder mismatch fails clearly instead of pretending to work. The packaged flat-folder path replaces ImageFolder. The historical notebook is not a turnkey verified workflow and was not fully rerun.
 
 This is DCGAN, not StyleGAN2. No 50k-image training count, FID score, face quality, identity/privacy safety or useful generalization is established. GAN losses alone are not quality metrics. No train/test split or real-data evaluation exists, and seeds are not a promise of cross-version/hardware bitwise reproducibility. No new license is asserted. Next work: independently sourced permitted images, held-out evaluation and memorization checks, then measured FID/diversity if appropriate. Do not use generated faces to impersonate real people.
+
+
+## License scope
+
+New project-owned package/engineering files use the owner's MIT default. See LICENSE and LICENSE-SCOPE.md. This is not permission to relicense historical notebooks, third-party code, datasets, models or weights. Their provenance and terms still need review. Earlier verification entries saying no license was added describe the initial pilot, not this follow-up.
