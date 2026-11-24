@@ -1,0 +1,10 @@
+{
+  "steps": 1000,
+  "generator_loss": 4.908339500427246,
+  "discriminator_loss": 0.07488875091075897,
+  "source": "https://github.com/zalandoresearch/fashion-mnist",
+  "training_images": 2048,
+  "elapsed_seconds": 112.99450635910034,
+  "peak_rss_kb": 429052,
+  "limits": "1000steps not FID or quality benchmark; no test or memorization claim. Visual sample inspection required."
+}
