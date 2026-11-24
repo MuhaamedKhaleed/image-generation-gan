@@ -1,0 +1,13 @@
+{
+  "synthetic_only": true,
+  "scope": "invented_noise_tiny_DCGAN_not_realistic_generation_quality",
+  "quality_claim": false,
+  "result": {
+    "training": {
+      "steps": 2,
+      "generator_loss": 0.9848006367683411,
+      "discriminator_loss": 1.2224478721618652
+    },
+    "sample_count": 2
+  }
+}
