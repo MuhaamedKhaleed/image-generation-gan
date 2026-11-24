@@ -22,3 +22,10 @@ Synthetic tests use width=2 and latent=3, not full default-width real-data train
 The workflow runs the same lint/type/test/hooks/CLI commands, then builds and smoke-runs a data-only non-root Docker image. Hosted success must be checked on the published run before reporting Docker as verified. It does not train a full GAN or publish an image/model. No paid APIs or deployments are configured. Private-repository runs are guarded off to respect the no-fees request.
 
 Main is not merged, PR words remain for review, and no release tag or license change is made.
+
+
+## Gap-closure follow-up (24 November 2026)
+
+The CI source now uses uv 0.13.8 and the committed transitive lock, rather than a new pip resolution of direct pins. Dependency installer caching is keyed by uv.lock. The local matching command is `uv sync --locked --extra dev --extra ml`, followed by the existing tests/quality commands. This does not cache or publish private datasets, weights or model outputs. Public-repository-only guards remain. The changed workflow's hosted outcome must be checked after publication; prior green runs do not validate a changed workflow.
+
+A complete copy-only project-focused profile README draft is appended to presentation.md. No profile account edits, main merge, PR, release or license change is implied by that text. Historical notebook/full-data/quality limitations remain open, not replaced by a passing synthetic test.
