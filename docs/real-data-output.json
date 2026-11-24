@@ -1,0 +1,18 @@
+{
+  "real_data": true,
+  "dataset": "Fashion-MNIST",
+  "subset": "first 128 official training images, 28x28 grayscale converted RGB/resized64; not faces",
+  "license": "MIT, Zalando SE 2017",
+  "source": "https://github.com/zalandoresearch/fashion-mnist",
+  "sha256": "3aede38d61863908ad78613f6a32ed271626dd12800ba2636569512369268a84",
+  "md5": "8d4fb7e6c68d591d4c3dfef9ec88bf0d",
+  "training": {
+    "steps": 24,
+    "generator_loss": 2.9179775714874268,
+    "discriminator_loss": 0.273685485124588
+  },
+  "elapsed_seconds": 1.47,
+  "quality_claim": false,
+  "limits": "24 CPU optimizer steps, no FID/diversity/memorization or held-out quality evaluation",
+  "samples": 8
+}
