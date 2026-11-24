@@ -13,3 +13,8 @@
 ### Changed
 - Cleared notebook outputs and disabled online credential/download setup.
 - Documented unmeasured real-data quality and differences from the historical notebook.
+
+
+### Engineering follow-up
+- Use the committed uv lock in CI and key dependency-installer caching by that lock.
+- Complete copy-only profile README drafts and clarify historical versus current verification.
