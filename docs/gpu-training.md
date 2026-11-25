@@ -28,7 +28,7 @@ account, GPU T4 x2, torch 2.11.0+cu130, CUDA verified available):
 | attempt | learning rate | outcome |
 | --- | --- | --- |
 | 2026-11-25 13:47 EET | 0.0004 (repo default) | Discriminator collapse: discriminator loss reached 0.0 by step 100 and stayed there, generator loss flat near 51 with no useful gradient. Run stopped; no checkpoint kept. |
-| 2026-11-25 14:21 EET | 0.0002 (canonical DCGAN rate, now the script default) | Same collapse at the lower rate: 1,407 steps (3 epochs, 60,000 images, batch 128) in 864.5s on a Tesla T4 (CUDA verified, seed 42). Discriminator loss 0.0 by step 100, generator loss flat near 51-61; the evidence grid is pure noise, no garment structure. Checkpoint kept as failure evidence (sha256 ba0a706ea0bb731a8b84de37e5f54a6a69624a8ebdcad70442d1d205bed0e173). No third tuning attempt without coordination. |
+| 2026-11-25 14:21 EET | 0.0002 (canonical DCGAN rate, now the script default) | Same collapse at the lower rate: 1,407 steps (3 epochs, 60,000 images, batch 128) in 864.5s on a Tesla T4 (CUDA verified, seed 42). Discriminator loss 0.0 by step 100, generator loss flat near 51-61; the evidence grid is pure noise, no garment structure. The session printed a checkpoint sha256 (ba0a706ea0bb731a8b84de37e5f54a6a69624a8ebdcad70442d1d205bed0e173) and read the checkpoint back; the notebook's saved version kept no output files, so no durable saved checkpoint is verified. No third tuning attempt without coordination. |
 
 Both full-data GPU attempts collapsed. This is failed-training evidence, not
 a working model: the verified outputs remain the local CPU tiny-run (wiring)
