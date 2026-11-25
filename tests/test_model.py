@@ -129,3 +129,31 @@ def test_corrupt_checkpoint(tmp_path: Path) -> None:
     p.write_bytes(b"not a torch checkpoint")
     with pytest.raises(DataError):
         sample(p, tmp_path / "out")
+
+
+def test_training_sampling_provenance(tmp_path: Path) -> None:
+    import hashlib
+    import json
+
+    images = fixture_images(tmp_path / "images", 2)
+    train(
+        images,
+        tmp_path / "model",
+        epochs=1,
+        batch_size=2,
+        latent=3,
+        width=2,
+        max_steps=1,
+    )
+    checkpoint = tmp_path / "model/checkpoint.pt"
+    provenance = json.loads((tmp_path / "model/provenance.json").read_text())
+    digest = hashlib.sha256(checkpoint.read_bytes()).hexdigest()
+    assert provenance["checkpoint_sha256"] == digest
+    assert len(provenance["input_sha256"]) == 2
+    paths = sample(checkpoint, tmp_path / "out", count=2)
+    manifest = json.loads((tmp_path / "out/provenance.json").read_text())
+    assert manifest["checkpoint_sha256"] == digest
+    assert (
+        manifest["samples"][paths[0].name]
+        == hashlib.sha256(paths[0].read_bytes()).hexdigest()
+    )
