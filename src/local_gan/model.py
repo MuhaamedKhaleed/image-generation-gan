@@ -1,5 +1,7 @@
 """Explicit CPU DCGAN baseline. No downloads or hidden training."""
 
+import hashlib
+import json
 import pickle
 from pathlib import Path
 from typing import Any
@@ -91,6 +93,7 @@ def train(
     og = Adam(g.parameters(), lr=learning_rate, betas=(0.5, 0.999))
     od = Adam(d.parameters(), lr=learning_rate, betas=(0.5, 0.999))
     loss = nn.BCELoss()
+    sources = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
     steps = 0
     for _ in range(epochs):
         order = torch.randperm(len(paths)).tolist()
@@ -110,6 +113,8 @@ def train(
             for parameter in d.parameters():
                 parameter.requires_grad_(False)
             gl = loss(d(fake), torch.ones(len(selected)))
+            if not bool(torch.isfinite(gl)) or not bool(torch.isfinite(dl)):
+                raise DataError("Nonfinite training loss; no checkpoint saved.")
             gl.backward()
             og.step()
             for parameter in d.parameters():
@@ -132,6 +137,27 @@ def train(
         },
         output / "checkpoint.pt",
     )
+    provenance = {
+        "format": 1,
+        "input_sha256": sources,
+        "checkpoint_sha256": hashlib.sha256(
+            (output / "checkpoint.pt").read_bytes()
+        ).hexdigest(),
+        "settings": {
+            "epochs": epochs,
+            "batch_size": batch_size,
+            "latent": latent,
+            "width": width,
+            "learning_rate": learning_rate,
+            "max_steps": max_steps,
+            "seed": seed,
+        },
+        "steps": steps,
+        "quality_claim": (
+            "None. Training completion and hashes do not establish face quality."
+        ),
+    }
+    (output / "provenance.json").write_text(json.dumps(provenance, indent=2))
     return {
         "steps": steps,
         "generator_loss": float(gl.detach()),
@@ -161,6 +187,8 @@ def sample(
         g, _ = networks(latent, width)
         g.load_state_dict(data["generator"])
         images = generate(g, torch.randn(count, latent, 1, 1))
+        if not bool(torch.isfinite(images).all()):
+            raise ValueError("nonfinite generated pixels")
     except (
         KeyError,
         TypeError,
@@ -184,4 +212,24 @@ def sample(
         path = output / f"sample-{index:03d}.png"
         Image.fromarray(pixels).save(path)
         paths.append(path)
+    (output / "provenance.json").write_text(
+        json.dumps(
+            {
+                "format": 1,
+                "checkpoint_sha256": hashlib.sha256(
+                    checkpoint.read_bytes()
+                ).hexdigest(),
+                "seed": seed,
+                "count": count,
+                "samples": {
+                    p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in paths
+                },
+                "quality_claim": (
+                    "None. Samples are linked to this checkpoint, "
+                    "not quality certified."
+                ),
+            },
+            indent=2,
+        )
+    )
     return paths
