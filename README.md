@@ -97,3 +97,7 @@ See [quality experiments, results and limits](docs/quality-cpu.md). These go bey
 ## Reliability follow-up
 
 See [new ordinary-use safeguards and limits](docs/fix-pass.md). Model-quality scores are unchanged.
+
+## Larger GPU training
+
+See [full Fashion-MNIST GPU training](docs/gpu-training.md) for the free Kaggle/Colab route (`scripts/gpu_train.py`, explicit `--device`), the recorded runs (both collapsed, kept as failed-training evidence) and the checked face-generation options with their rights limits. The checkpoint stays in the format `dcgan sample` loads. No data or weights committed.
